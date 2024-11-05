@@ -60,8 +60,10 @@ calculating average total sales =AVERAGE(H2:H33788) Capture sales data average b
 
 - Pivot Table
 
+![image](https://github.com/user-attachments/assets/1986f6ff-784b-48d3-b67d-416e785fe744)
 
-Queries in SQL SQL PROJECT 2
+
+- Queries in SQL PROJECT 2
 
 Project 2: Customer Segmentation for a Subscription Service
 
