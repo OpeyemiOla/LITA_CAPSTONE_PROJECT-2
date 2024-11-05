@@ -1,28 +1,32 @@
 # LITA_CAPSTONE_PROJECT-2
 Lita class project on customerdata subscription
 
-PROJECT OVERVIEW:
+### PROJECT OVERVIEW:
 This report presents an analysis of total revenue across different subscription types and differnt regions, summarizing performance, identifying the highest-earning subscription type and regions, and providing insights and recommendations.
 
-Top Selling Products
-Regional Performances Monthly Sales Trend PowerBI for visualization and storytelling
+### Top Selling Products
+Regional Performances 
+Monthly Sales Trend 
+PowerBI for visualization and storytelling
 
 DATA DESCRIPTION
 This dataset includes the following Columns:
 
-Order Number
+CustomerId
 
-Customer Id
+CustomerName
 
-products
+Region
 
-region
+SubscrptionType
 
-Order Date
+SubscrptionStart
 
-Quantity
+SubscrptionEnd
 
-Unit Price
+Canceled
+
+Revenue
 
 DASHBOARD REVIEW
 Customer Id products: Items sold in the store region: The other regional branches of the store ( North, South, East West) Order Date: Date order was placed Quantity: The number of units of the product ordered in each transaction Unit Price: The cost per unit of the product acquired
@@ -36,12 +40,14 @@ Total Region: 4
 METHODOLOGY
 Data Collection The dataset for this analysis was provided by LITA_ The Incubator Hub for leaening and training purposes. The data was provided in Excel sheet [download Here] (https://canvas.instructure.com/files/273182802/download?download_frd=1)
 
-The excel sheet was used for calculation and creating pivot tables to summarize the total sales by product, region, and month The excel sheet was for easy importing of files into: SQL to write various queries Power BI to create dashboards using various charts (Donut Chart, piechart and clustered Column Chart)
+- The excel sheet was used for calculation and creating pivot tables to summarize the average subscription duration and identify the most popular subscription types. 
+- The excel sheet was for easy importing of files into: SQL to write various queries
+- Power BI to create dashboards using various charts (Donut Chart, piechart and clustered Column Chart)
 
 DATA ANALYSIS
-Calculation in Excel Generating Total Sales =SUM(H2:H50259) Capture total sales as revenue
+Calculation in Excel Generating Total Sales =SUM(H2:H33788) Capture total sales as revenue
 
-calculating average total sales =AVERAGE(H2:H9922) Capture sales data average by product
+calculating average total sales =AVERAGE(H2:H33788) Capture sales data average by subscription
 
 Excel Chart
 image
@@ -51,98 +57,134 @@ image
 Pivot Table
 image
 
-Queries in SQL SQL PROJECT 1
+Queries in SQL SQL PROJECT 2
 
-Retrieve the total sales for each product category.
-SELECT product, SUM(Quantity * UnitPrice) AS total_sales
+Project 2: Customer Segmentation for a Subscription Service
 
-FROM [dbo].[SalesData$]
+1.	retrieve the total number of customers from each region.
+   
+SELECT 
+    Region,
+    COUNT(CustomerID) AS Total_Customers
+  	
+FROM 
+    [dbo].[CustomerData$]
+  	
+GROUP BY 
+    Region
+  	
+ORDER BY 
+    Total_Customers DESC;
 
-GROUP BY product;
+3.	find the most popular subscription type by the number of customers.
+   
+SELECT TOP 1
+    SubscriptionType, 
+    COUNT(CustomerID) AS Total_Customers
+  	
+FROM 
+    [dbo].[CustomerData$]
+  	
+GROUP BY 
+    SubscriptionType
+  	
+   ORDER BY 
+           Total_Customers DESC;
 
-Find the number of sales transactions in each region.
-SELECT region, COUNT(Quantity) AS total_transactions
+4.	find customers who canceled their subscription within 6 months.
+   
+SELECT 
+    CustomerID,
+    CustomerName,
+    SubscriptionStart,
+    SubscriptionEnd,
+    Canceled,
+    DATEDIFF(month, SubscriptionStart, SubscriptionEnd) AS Subscription_Duration
+  	
+FROM 
+   [dbo].[CustomerData$]
+  	
+WHERE 
+    Canceled = 1
+  	
+    AND DATEDIFF(month, SubscriptionStart, SubscriptionEnd) <= 6
+  	
+ORDER BY 
+    Subscription_Duration ASC;
 
-FROM [dbo].[SalesData$]
+5.	calculate the average subscription duration for all customers.
+   
+SELECT 
+    AVG(DATEDIFF(month, SubscriptionStart, SubscriptionEnd)) AS Average_Subscription_Duration
+  	
+FROM 
+    dbo.CustomerData$
+  	
+WHERE 
+   Canceled = 1;
 
-GROUP BY region;
+6.	find customers with subscriptions longer than 12 months.
+   
+SELECT 
+    CustomerID,
+    CustomerName,
+    SubscriptionStart,
+    SubscriptionEnd,
+    DATEDIFF(month, SubscriptionStart, SubscriptionEnd) AS Subscription_Duration
+  	
+FROM 
+    dbo.CustomerData$
+  	
+WHERE 
+    DATEDIFF(month, SubscriptionStart, SubscriptionEnd) > 12
+  	
+      AND Canceled = 0;
 
-Find the highest-selling product by total sales value.
-SELECT TOP 1 product, SUM(Quantity * UnitPrice) AS total_sales
+7.	calculate total revenue by subscription type.
+   
+SELECT 
+    SubscriptionType,
+    SUM(Revenue) AS Total_Revenue
+  	
+FROM 
+    dbo.CustomerData$
+  	
+GROUP BY 
+    SubscriptionType
+  	
+ORDER BY 
+    Total_Revenue DESC;
 
-FROM [dbo].[SalesData$]
+8.	find the top 3 regions by subscription cancellations.
+   
+SELECT TOP 3 
+    Region,
+    COUNT(CustomerID) AS Cancellation_Count
+  	
+FROM 
+    dbo.CustomerData$
+  	
+WHERE 
+    Canceled = 1
+  	
+GROUP BY 
+    Region
+  	
+ORDER BY 
+   Cancellation_Count DESC;
 
-GROUP BY product
 
-ORDER BY total_sales DESC
+9.	find the total number of active and canceled subscriptions.
+   
+SELECT 
+    SUM(CASE WHEN Canceled = 0 THEN 1 ELSE 0 END) AS Active_Subscriptions,
+    SUM(CASE WHEN Canceled = 1 THEN 1 ELSE 0 END) AS Canceled_Subscriptions
+  	
+FROM 
+  dbo.CustomerData$;
 
-calculate total revenue per product.
-SELECT product, SUM(Quantity * UnitPrice) AS total_revenue
 
-FROM [dbo].[SalesData$]
 
-GROUP BY product;
-
-calculate monthly sales totals for the current year.
-SELECT MONTH(OrderDate) AS month,
-
-SUM(UnitPrice) AS total_monthly_sales
-FROM
-
-[dbo].[SalesData$]
-WHERE
-
-YEAR(OrderDate) = 2024
-
-GROUP BY
-
-MONTH(OrderDate)
-ORDER BY
-
-month;
-Find the top 5 customers by total purchase amount.
-SELECT TOP 5
-
-[Customer Id], 
-
-SUM(Quantity * UnitPrice) AS Total_Purchase_Amount
-FROM
-
-[dbo].[SalesData$]
-GROUP BY [Customer Id]
-
-ORDER BY Total_Purchase_Amount DESC;
-
-calculate the percentage of total sales contributed by each region.
-SELECT
-
-Region, SUM(Quantity * UnitPrice) AS Regional_Sales, (SUM(Quantity * UnitPrice) /
-
-(SELECT SUM(Quantity * UnitPrice) FROM dbo.SalesData$)) * 100 
-AS Percentage_of_Total_Sales
-FROM [dbo].[SalesData$]
-
-GROUP BY Region
-
-ORDER BY Regional_Sales DESC;
-
-identify products with no sales in the last quarter.
-SELECT DISTINCT Product
-
-FROM dbo.SalesData$
-
-WHERE Product NOT IN (
-
-  SELECT 
-     Product
-     
-  FROM 
-       dbo.SalesData$
-       
-    WHERE 
-        OrderDate >= DATEADD(q, DATEDIFF(q, 0, GETDATE()), 0)
-)
-ORDER BY Product;
 
 -SQL VISUALS image
 
@@ -157,45 +199,74 @@ image
 
 image
 
-Data Summary:
-The data provided outlines the sales/revenue figures for six products. Here’s a detailed breakdown:
+### Data Summary
+---
+The data outlines the revenue figures by region and by subscription type. Here’s the breakdown:
 
-Gloves: NGN 296,900.00
+- Revenue by Region:
 
-Hat: NGN 316,195.00
+East: NGN 16,958,763.00
 
-Jacket: NGN 208,230.00
+North: NGN 16,817,972.00
 
-Shirt: NGN 485,600.00
+South: NGN 16,899,064.00
 
-Shoes: NGN 613,380.00
+West: NGN 16,864,376.00
 
-Socks: NGN 180,785.00
+Grand Total: NGN 67,540,175.00
 
-Grand Total Sales/Revenue: NGN 2,101,090.00
+- Revenue by Subscription Type:
 
-Key Insights:
-Top Performing Product: Shoes lead the revenue figures with a total of NGN 613,380.00, representing the highest share of the total revenue (approximately 29.2%).
+Basic: NGN 33,776,735.00
 
-Second Top Product: Shirts follow with a total revenue of NGN 485,600.00 (approximately 23.1%).
+Premium: NGN 16,899,064.00
 
-Lowest Performing Product: Socks have the lowest total revenue, coming in at NGN 180,785.00 (approximately 8.6%).
+Standard: NGN 16,864,376.00
 
-Regional Insights:
-Top Performing Region: The South region leads with a total revenue of NGN 927,820.00, accounting for approximately 44.2% of the total revenue.
+Grand Total: NGN 67,540,175.00
 
-Second Top Region: The East region follows with a total revenue of NGN 485,925.00 (approximately 23.1%).
+### Key Insights:
+---
 
-Lowest Performing Region: The West region has the lowest total revenue, coming in at NGN 300,345.00 (approximately 14.3%).
+Top Performing Region:
 
-Recommendations:
-Focus on Top Products: Enhance marketing and sales efforts for Shoes and Shirts, as they contribute significantly to the revenue. Consider promoting these products through special offers, discounts, and targeted advertising campaigns.
+East region leads slightly with NGN 16,958,763.00, closely followed by South and North regions.
 
-Improve Low Performing Products: Investigate the reasons for low sales of Socks and Jackets. This could involve conducting market research to understand customer preferences and adjusting the product features or pricing accordingly.
+Top Performing Subscription Type:
 
-Diversification: Explore opportunities to diversify the product line based on customer feedback and market trends. Introducing new products or variations of existing products could attract a broader customer base.
+The Basic subscription dominates, accounting for 50.0% of the total revenue.
 
-Seasonal Promotions: Utilize seasonal trends to boost sales. For example, promote Jackets and Gloves more aggressively during colder months.
+Balanced Regional Distribution:
 
-Conclusion:
-The analysis reveals that Shoes are the highest-earning product, accounting for the largest portion of revenue. Meanwhile, the Socks category shows room for improvement in sales strategies. The overall revenue distribution indicates a healthy mix of high-performing products, which can provide valuable insights for future product development and marketing initiatives.
+Revenue is almost evenly distributed across all four regions, indicating a well-balanced performance.
+
+Subscription Type Contribution:
+
+Basic subscription significantly contributes to the total revenue, with Premium and Standard being evenly matched.
+
+### Recommendations:
+---
+
+Maintain Regional Balance:
+
+Continue to maintain balanced efforts across all regions to sustain the even distribution of revenue.
+
+Boost Premium and Standard Subscriptions:
+
+Focus on enhancing marketing and sales strategies for Premium and Standard subscriptions to increase their uptake. Emphasize the unique benefits of these plans.
+
+Targeted Promotions:
+
+Create targeted promotional campaigns for each region, taking into account any regional preferences and trends.
+
+Customer Feedback:
+
+Regularly gather and analyze customer feedback from different regions and subscription types to understand their needs and improve offerings.
+
+Incentivize Upgrades:
+
+Offer incentives for Basic subscribers to upgrade to Premium or Standard subscriptions, such as special features or discounts.
+
+### Conclusion 
+---
+The analysis reveals a balanced regional revenue distribution and a dominant Basic subscription. The insights and recommendations provided can help optimize sales strategies and improve overall performance across different regions and subscription types.
