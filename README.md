@@ -194,7 +194,8 @@ FROM
 
 -SQL VISUALS image
 
-image
+![image](https://github.com/user-attachments/assets/2562afd3-c4a2-4aae-89dd-81fe09769e7f)
+
 
 image
 
