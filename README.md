@@ -74,16 +74,20 @@ Project 2: Customer Segmentation for a Subscription Service
 1.	retrieve the total number of customers from each region.
    
 SELECT 
+
     Region,
     COUNT(CustomerID) AS Total_Customers
   	
 FROM 
+
     [dbo].[CustomerData$]
   	
 GROUP BY 
+
     Region
   	
 ORDER BY 
+
     Total_Customers DESC;
 
 3.	find the most popular subscription type by the number of customers.
