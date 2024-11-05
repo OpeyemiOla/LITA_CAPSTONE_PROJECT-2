@@ -6,7 +6,9 @@ This report presents an analysis of total revenue across different subscription 
 
 ### Top Selling Products
 Regional Performances 
+
 Monthly Sales Trend 
+
 PowerBI for visualization and storytelling
 
 DATA DESCRIPTION
@@ -204,12 +206,10 @@ FROM
 
 
 
-DASH BOARD OVERVIEW WITH POWER BI:
-image
+- DASH BOARD OVERVIEW WITH POWER BI:
 
-image
+![image](https://github.com/user-attachments/assets/4f14e3d7-72bb-497a-9811-fd15c0f37d0f)
 
-image
 
 ### Data Summary
 ---
