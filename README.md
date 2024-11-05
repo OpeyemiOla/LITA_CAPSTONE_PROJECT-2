@@ -1,7 +1,26 @@
 # LITA_CAPSTONE_PROJECT-2
 Lita class project on customerdata subscription
 
-### PROJECT OVERVIEW:
+[PROJECT OVERVIEW](PROJECT-OVERVIEW)
+
+[Top Selling Products](Top-Selling-Products)
+
+[DATA DESCRIPTION](DATA-DESCRIPTION)
+
+[METHODOLOGY](METHODOLOGY)
+
+[DATA ANALYSIS](DATA-ANALYSIS)
+
+[Data Summary](Data-Summary)
+
+[Key Insights](Key-Insights)
+
+[Recommendations](Recommendations)
+
+[Conclusion ](Conclusion )
+
+
+### PROJECT OVERVIEW
 This report presents an analysis of total revenue across different subscription types and differnt regions, summarizing performance, identifying the highest-earning subscription type and regions, and providing insights and recommendations.
 
 ### Top Selling Products
@@ -12,7 +31,8 @@ Monthly Sales Trend
 PowerBI for visualization and storytelling
 
 
-- DATA DESCRIPTION
+### DATA DESCRIPTION
+---
   
 This dataset includes the following Columns:
 
@@ -90,24 +110,29 @@ ORDER BY
 
     Total_Customers DESC;
 
-3.	find the most popular subscription type by the number of customers.
+2.	find the most popular subscription type by the number of customers.
    
 SELECT TOP 1
+
     SubscriptionType, 
     COUNT(CustomerID) AS Total_Customers
   	
 FROM 
+
     [dbo].[CustomerData$]
   	
 GROUP BY 
+
     SubscriptionType
   	
    ORDER BY 
+   
            Total_Customers DESC;
 
-4.	find customers who canceled their subscription within 6 months.
+3.	find customers who canceled their subscription within 6 months.
    
 SELECT 
+
     CustomerID,
     CustomerName,
     SubscriptionStart,
@@ -116,30 +141,37 @@ SELECT
     DATEDIFF(month, SubscriptionStart, SubscriptionEnd) AS Subscription_Duration
   	
 FROM 
+
    [dbo].[CustomerData$]
   	
 WHERE 
+
     Canceled = 1
   	
     AND DATEDIFF(month, SubscriptionStart, SubscriptionEnd) <= 6
   	
 ORDER BY 
+
     Subscription_Duration ASC;
 
-5.	calculate the average subscription duration for all customers.
+4.	calculate the average subscription duration for all customers.
    
 SELECT 
+
     AVG(DATEDIFF(month, SubscriptionStart, SubscriptionEnd)) AS Average_Subscription_Duration
   	
 FROM 
+
     dbo.CustomerData$
   	
 WHERE 
+
    Canceled = 1;
 
-6.	find customers with subscriptions longer than 12 months.
+5.	find customers with subscriptions longer than 12 months.
    
 SELECT 
+
     CustomerID,
     CustomerName,
     SubscriptionStart,
@@ -147,54 +179,67 @@ SELECT
     DATEDIFF(month, SubscriptionStart, SubscriptionEnd) AS Subscription_Duration
   	
 FROM 
+
     dbo.CustomerData$
   	
 WHERE 
+
     DATEDIFF(month, SubscriptionStart, SubscriptionEnd) > 12
   	
       AND Canceled = 0;
 
-7.	calculate total revenue by subscription type.
+6.	calculate total revenue by subscription type.
    
 SELECT 
+
     SubscriptionType,
     SUM(Revenue) AS Total_Revenue
   	
 FROM 
+
     dbo.CustomerData$
   	
 GROUP BY 
+
     SubscriptionType
   	
 ORDER BY 
+
     Total_Revenue DESC;
 
-8.	find the top 3 regions by subscription cancellations.
+7.	find the top 3 regions by subscription cancellations.
    
 SELECT TOP 3 
+
     Region,
     COUNT(CustomerID) AS Cancellation_Count
   	
 FROM 
+
     dbo.CustomerData$
   	
 WHERE 
+
     Canceled = 1
   	
 GROUP BY 
+
     Region
   	
 ORDER BY 
+
    Cancellation_Count DESC;
 
 
-9.	find the total number of active and canceled subscriptions.
+8.	find the total number of active and canceled subscriptions.
    
 SELECT 
+
     SUM(CASE WHEN Canceled = 0 THEN 1 ELSE 0 END) AS Active_Subscriptions,
     SUM(CASE WHEN Canceled = 1 THEN 1 ELSE 0 END) AS Canceled_Subscriptions
   	
 FROM 
+
   dbo.CustomerData$;
 
 
@@ -243,7 +288,7 @@ Standard: NGN 16,864,376.00
 
 Grand Total: NGN 67,540,175.00
 
-### Key Insights:
+### Key Insights
 ---
 
 Top Performing Region:
@@ -262,7 +307,7 @@ Subscription Type Contribution:
 
 Basic subscription significantly contributes to the total revenue, with Premium and Standard being evenly matched.
 
-### Recommendations:
+### Recommendations
 ---
 
 Maintain Regional Balance:
