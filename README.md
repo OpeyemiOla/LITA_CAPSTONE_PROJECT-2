@@ -52,11 +52,12 @@ Canceled
 
 Revenue
 
+
 - STATISTICS ABOUT THE DATASET:
   
-- Number of Unique Customers: 33787
+ Number of Unique Customers: 33787
   
- no of subscription types: 6
+ No of subscription types: 6
  
 Total Sales: 67,540,175.00
 
