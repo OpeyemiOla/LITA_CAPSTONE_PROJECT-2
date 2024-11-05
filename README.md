@@ -28,34 +28,38 @@ Canceled
 
 Revenue
 
-DASHBOARD REVIEW
-Customer Id products: Items sold in the store region: The other regional branches of the store ( North, South, East West) Order Date: Date order was placed Quantity: The number of units of the product ordered in each transaction Unit Price: The cost per unit of the product acquired
-
 - STATISTICS ABOUT THE DATASET:
+  
 - Number of Unique Customers: 33787
+  
  no of subscription types: 6
+ 
 Total Sales: 67,540,175.00
+
 Total Region: 4
 
-METHODOLOGY
+### METHODOLOGY
+---
 Data Collection The dataset for this analysis was provided by LITA_ The Incubator Hub for leaening and training purposes. The data was provided in Excel sheet [download Here] (https://canvas.instructure.com/files/273182802/download?download_frd=1)
 
-- The excel sheet was used for calculation and creating pivot tables to summarize the average subscription duration and identify the most popular subscription types. 
+- The excel sheet was used for calculation and creating pivot tables to summarize the average subscription duration and identify the most popular subscription types.
+  
 - The excel sheet was for easy importing of files into: SQL to write various queries
+  
 - Power BI to create dashboards using various charts (Donut Chart, piechart and clustered Column Chart)
 
-DATA ANALYSIS
+### DATA ANALYSIS
+---
 Calculation in Excel Generating Total Sales =SUM(H2:H33788) Capture total sales as revenue
 
 calculating average total sales =AVERAGE(H2:H33788) Capture sales data average by subscription
 
-Excel Chart
-image
+- Excel Chart
+![image](https://github.com/user-attachments/assets/e38029d6-d87d-4fb1-82fa-8b19062aaaa6)
 
-image
 
-Pivot Table
-image
+- Pivot Table
+
 
 Queries in SQL SQL PROJECT 2
 
