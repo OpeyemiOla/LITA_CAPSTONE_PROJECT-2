@@ -11,7 +11,9 @@ Monthly Sales Trend
 
 PowerBI for visualization and storytelling
 
-DATA DESCRIPTION
+
+- DATA DESCRIPTION
+  
 This dataset includes the following Columns:
 
 CustomerId
