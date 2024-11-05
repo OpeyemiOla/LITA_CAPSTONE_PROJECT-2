@@ -200,6 +200,10 @@ FROM
 ![image](https://github.com/user-attachments/assets/b61cca34-6b77-435b-acc3-bea96a3c2bda)
 
 
+![image](https://github.com/user-attachments/assets/10f266ab-089d-4826-9dd0-a9320ddeac42)
+
+
+
 DASH BOARD OVERVIEW WITH POWER BI:
 image
 
